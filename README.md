@@ -1,8 +1,8 @@
-#PRINCING MICROSERVICE
+# PRINCING MICROSERVICE
 
-##Consultas GET
+## Consultas GET
 
-###/v1/price/:article_id
+### /v1/price/:article_id
 response:    
     {
         id: String,
@@ -13,7 +13,7 @@ response:
         //discount: float
     }
 
-###/v1/price/:article_id&:fecha
+### /v1/price/:article_id&:fecha
 response:    
     {
         id: String,
@@ -24,7 +24,7 @@ response:
         discount: float
     }
 
-###/v1/discount/:article_id
+### /v1/discount/:article_id
 response:
     [{
         id: String,
@@ -33,7 +33,7 @@ response:
         detalle: String
     }]
 
-###/v1/discount/:article_id&:fecha
+### /v1/discount/:article_id&:fecha
 response:
     [{
         id: String,
@@ -42,11 +42,11 @@ response:
         detalle: String
     }]
 
-##Consultas POST
+## Consultas POST
 
 
 
-###/v1/price
+### /v1/price
 
 request:
     [{
@@ -61,7 +61,7 @@ response:
         message: "Registro creado con éxito"
     }
 
-###/v1/discount/
+### /v1/discount/
 request:
     [{
         article_id: String,
