@@ -1,16 +1,73 @@
 # PRINCING MICROSERVICE
 
-## Objetivo
+## Tabla de contenidos
+- [PRINCING MICROSERVICE](#princing-microservice)
+    - [Tabla de contenidos](#tabla-de-contenidos)
+    - [Objetivos](#objetivos)
+    - [Recursos del microservicio](#recursos-del-microservicio)
+    - [Servicios ofercidos](#servicios-ofercidos)
+    - [Precios](#precios)
+        - [Crear Precio](#crear-precio)
+        - [Buscar Precio](#buscar-precio)
+        - [Buscar Precio por Fecha](#buscar-precio-por-fecha)
+        - [Actualizar Precio](#actualizar-precio)
+        - [Eliminar Precio](#eliminar-precio)
+    - [Descuentos](#descuentos)
+        - [Crear Descuento](#crear-descuento)
+        - [Buscar Descuento](#buscar-descuento)
+        - [Buscar Descuento Fecha](#buscar-descuento-fecha)
+        - [Actualizar Precio](#actualizar-precio)
+        - [Eliminar Precio](#eliminar-precio)
 
+
+## Objetivos
+
+
+## Recursos del microservicio
+    - Precios
+    - Descuentos
+  
 ## Servicios ofercidos
 
-- [Precios](#precios)
+## Precios
+### Crear Precio
+    Ruta que permite crear uno y varios precios nuevos
+
+**URL:**  
+    /v1/price
+
+**Method:**  
+    POST  
+
+**Request body:**
+```
+    [{
+        article_id: String,
+        price: double,
+        fechaDesde: Date,
+        fechaHasta: Date
+    }]
+```
+**Response body:**
+```
+    [{
+        id: String,
+        message: "Registro creado con éxito"
+    }]
+```
+### Buscar Precio
+    Ruta que permite obtener un precio a partir de su correspondiente id
+
+**URL:**  
+ /v1/price/:article_id  
+
+**Method:**   
+GET  
+
+**Parámetros:**   
+    - *article_id:* id del artículo deseado
   
-
-## Consultas GET
-
-### /v1/price/:article_i
-Response: 
+**Response Body:** 
 ```   
     {
         id: String,
@@ -20,73 +77,205 @@ Response:
         article_id: String
     }
 ```
-### /v1/price/:article_id&:fecha
-response:    
-```
+### Buscar Precio por Fecha
+    Ruta que permite buscar el precio de un artículo para una fecha determinadad
+
+**URL:**  
+/v1/price/:article_id&:fecha  
+
+**Method:**  
+GET  
+
+**Parámetros:**  
+    - *article_id:* id del artículo deseado  
+    - *fecha:* fecha del precio  
+
+**Response Body:**  
+```   
     {
         id: String,
         fechaDesde: Date,
         fechaHasta: Date,
-        price: float,
-        article_id: String,
-        discount: float
+        price: double,
+        article_id: String
     }
 ```
-### /v1/discount/:article_id
-response:
+
+### Actualizar Precio
+    Ruta que permite modificar un precio existente a partir del correspondiente id
+
+**URL:**  
+/v1/price/:price_id
+
+**Method:**  
+POST  
+
+**Parámetros:**  
+    -*price_id:* id del precio existente a modificar  
+
+**Request Body:**
+
 ```
-    [{
-        id: String,
+    {
+        article_id: String,
+        price: double,
         fechaDesde: Date,
-        fechaHasta: Date,
-        detalle: String
-    }]
+        fechaHasta: Date
+    }
 ```
-### /v1/discount/:article_id&:fecha
-response:
+
+**Response Body:**
+
 ```
-    [{
+    {
         id: String,
-        fechaDesde: Date,
-        fechaHasta: Date,
-        detalle: String
-    }]
+        message: "Registro actualizado con éxito"
+    }
 ```
-## Consultas POST
 
+### Eliminar Precio
+    Ruta que permite eliminar un precio actual de la base de datos
 
+**URL:**  
+/v1/price/:price_id  
 
-### /v1/price
+**Method:**  
+DELETE  
+
+**Parámetros:**  
+    -*price_id:* id del precio a eliminar de la base de datos
+
+**Response Body:**
 ```
-request:
+    {
+        id: String,
+        message: "Registro eliminado con éxito"
+    }
+```
+
+
+## Descuentos
+### Crear Descuento
+    Ruta que permite crear uno y varios descuentos nuevos
+
+**URL:**  
+    /v1/discount
+
+**Method:**  
+    POST  
+
+**Request body:**
+```
     [{
         article_id: String,
-        price: float,
+        discount: float,
         fechaDesde: Date,
         fechaHasta: Date
     }]
 ```
-response:
-```
-    {
-        id: [String],
-        message: "Registro creado con éxito"
-    }
-```
-### /v1/discount/
-request:
+**Response body:**
 ```
     [{
-        article_id: String,
-        price: float,
-        fechaDesde: Date,
-        fechaHasta: Date
+        id: String,
+        message: "Registro creado con éxito"
     }]
 ```
-response:
+### Buscar Descuento
+    Ruta que permite obtener uno o varios descuentos a partir del id del artículo relacionado
+
+**URL:**  
+ /v1/discount/:article_id  
+
+**Method:**   
+GET  
+
+**Parámetros:**   
+    - *article_id:* id del artículo deseado
+  
+**Response Body:** 
+```   
+    [{
+        id: String,
+        fechaDesde: Date,
+        fechaHasta: Date,
+        discount: float,
+        article_id: String
+    }]
+```
+
+### Buscar Descuento Fecha 
+    Ruta que permite buscar el descuento de un artículo para una fecha determinadad
+
+**URL:**  
+/v1/price/:article_id&:fecha  
+
+**Method:**  
+GET  
+
+**Parámetros:**  
+    - *article_id:* id del artículo deseado  
+    - *fecha:* fecha del descuento  
+
+**Response Body:**  
+```   
+    {
+        id: String,
+        fechaDesde: Date,
+        fechaHasta: Date,
+        discount: float,
+        article_id: String
+    }
+```
+
+### Actualizar Precio
+    Ruta que permite modificar un descuento existente a partir del correspondiente id
+
+**URL:**  
+/v1/discout/:discount_id
+
+**Method:**  
+POST  
+
+**Parámetros:**  
+    -*discount_id:* id del descuento existente a modificar  
+
+**Request Body:**
+
+```
+    {
+        article_id: String,
+        discount: float,
+        fechaDesde: Date,
+        fechaHasta: Date
+    }
+```
+
+**Response Body:**
+
 ```
     {
         id: String,
-        message: "Registro creado con éxito"
+        message: "Registro actualizado con éxito"
     }
 ```
+
+### Eliminar Precio
+    Ruta que permite eliminar un descuento actual de la base de datos
+
+**URL:**  
+/v1/discount/:discount_id  
+
+**Method:**  
+DELETE  
+
+**Parámetros:**  
+    -*discount_id:* id del descuento a eliminar de la base de datos
+
+**Response Body:**
+```
+    {
+        id: String,
+        message: "Registro eliminado con éxito"
+    }
+```
+
