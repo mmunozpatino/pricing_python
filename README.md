@@ -3,7 +3,9 @@
 ## Tabla de contenidos
 - [PRINCING MICROSERVICE](#princing-microservice)
     - [Tabla de contenidos](#tabla-de-contenidos)
+    - [Auth](#auth)
     - [Objetivos](#objetivos)
+    - [Microservicios utilizados](#microservicios-utilizados)
     - [Recursos del microservicio](#recursos-del-microservicio)
     - [Servicios ofercidos](#servicios-ofercidos)
     - [Precios](#precios)
@@ -19,15 +21,28 @@
         - [Actualizar Precio](#actualizar-precio)
         - [Eliminar Precio](#eliminar-precio)
 
+## Auth
+
+El servicio de pricing tiene funciones habilitadas por más de que el usuario no se encuentre autenticado, por ejemplo para consultar un precio el usuario no necesita estar autenticado, para poder ver descuentos si necesita estar autenticado, para modificar un  precio/descuento dicho usuario necesita ser "admin" para poder hacerlo
 
 ## Objetivos
 
+Este microservicio tiene como objetivo permitir la administación de los precios de los distintos artículos del negocio, tanto precios o descuentos actuales o futuros, manejando fecha de validez de cada precio/precio.
+
+## Microservicios utilizados
+
+    -Auth
 
 ## Recursos del microservicio
     - Precios
     - Descuentos
   
 ## Servicios ofercidos
+
+    -Agregar un precio o descuento
+    -Consultar el/los precios de uno o varios artículos
+    -Modificar un precio/descuento
+    -Eliminar un precio o descuento
 
 ## Precios
 ### Crear Precio
