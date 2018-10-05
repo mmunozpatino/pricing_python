@@ -1,5 +1,10 @@
 # PRINCING MICROSERVICE
 
+//TODO:  
+    -agregar un glosario
+    -consultar si el precio existe
+    -ver usuario anonimo con auth
+    -agregar status response 200 y un error
 ## Tabla de contenidos
 - [PRINCING MICROSERVICE](#princing-microservice)
     - [Tabla de contenidos](#tabla-de-contenidos)
