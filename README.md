@@ -1,10 +1,5 @@
 # PRINCING MICROSERVICE
 
-//TODO:  
-    -agregar un glosario
-    -consultar si el precio existe
-    -ver usuario anonimo con auth
-    -agregar status response 200 y un error
 ## Tabla de contenidos
 - [PRINCING MICROSERVICE](#princing-microservice)
     - [Tabla de contenidos](#tabla-de-contenidos)
@@ -12,7 +7,8 @@
     - [Objetivos](#objetivos)
     - [Microservicios utilizados](#microservicios-utilizados)
     - [Recursos del microservicio](#recursos-del-microservicio)
-    - [Servicios ofercidos](#servicios-ofercidos)
+    - [Servicios ofrecidos](#servicios-ofrecidos)
+    - [Glosario](#glosario)
     - [Precios](#precios)
         - [Crear Precio](#crear-precio)
         - [Buscar Precio](#buscar-precio)
@@ -25,10 +21,15 @@
         - [Buscar Descuento Fecha](#buscar-descuento-fecha)
         - [Actualizar Precio](#actualizar-precio)
         - [Eliminar Precio](#eliminar-precio)
+    - [Rabbit](#rabbit)
+        - [Rabbit GET](#rabbit-get)
+            - [Validación de artículos](#validaci%C3%B3n-de-art%C3%ADculos)
+            - [Logout](#logout)
+        - [Rabbit POST](#rabbit-post)
 
 ## Auth
 
-El servicio de pricing tiene funciones habilitadas por más de que el usuario no se encuentre autenticado, por ejemplo para consultar un precio el usuario no necesita estar autenticado, para poder ver descuentos si necesita estar autenticado, para modificar un  precio/descuento dicho usuario necesita ser "admin" para poder hacerlo
+El servicio de pricing tiene funciones **habilitadas** para el usuario anónimo, consultar un **precio**, para poder ver descuentos si necesita estar autenticado, para modificar un  precio/descuento dicho usuario necesita ser "admin" para poder hacerlo.
 
 ## Objetivos
 
@@ -37,18 +38,24 @@ Este microservicio tiene como objetivo permitir la administación de los precios
 ## Microservicios utilizados
 
     -Auth
+    -Catalog
 
 ## Recursos del microservicio
     - Precios
     - Descuentos
   
-## Servicios ofercidos
+## Servicios ofrecidos
 
     -Agregar un precio o descuento
     -Consultar el/los precios de uno o varios artículos
     -Modificar un precio/descuento
     -Eliminar un precio o descuento
 
+## Glosario
+
+-**Precio** : Valor del costo de un atículo, se representa con un double y tiene fechas entre las cuáles dicho precio es válido.  
+
+-**Descuento** : Valor que tiene de promoción un artículo, al igual que el precio, posee fechas entre las cuáles dicho descuento es válido.
 ## Precios
 ### Crear Precio
     Ruta que permite crear uno y varios precios nuevos
@@ -58,6 +65,9 @@ Este microservicio tiene como objetivo permitir la administación de los precios
 
 **Method:**  
     POST  
+
+**Request header:**  
+```Authorization=bearer {token}```  
 
 **Request body:**
 ```
@@ -75,6 +85,39 @@ Este microservicio tiene como objetivo permitir la administación de los precios
         message: "Registro creado con éxito"
     }]
 ```
+
+**Reponse status:**  
+
+**200 OK**
+
+```
+HTTP/1.1 200 OK
+```
+**401 Unauthorized**
+
+```
+HTTP/1.1 401 Unauthorized
+```
+
+**400 Bad Request**
+
+```
+HTTP/1.1 400 Bad Request
+{
+    "error" : "{Motivo del error}"
+}
+```
+
+
+**500 Server Error**
+
+```
+HTTP/1.1 500 Server Error
+{
+    "error" : "{Motivo del error}"
+}
+```
+
 ### Buscar Precio
     Ruta que permite obtener un precio a partir de su correspondiente id
 
@@ -97,6 +140,39 @@ GET
         article_id: String
     }
 ```
+
+**Reponse status:**
+**200 OK**
+
+```
+HTTP/1.1 200 OK
+```  
+
+**401 Unauthorized**
+
+```
+HTTP/1.1 401 Unauthorized
+```
+
+**400 Bad Request**
+
+```
+HTTP/1.1 400 Bad Request
+{
+    "error" : "{Motivo del error}"
+}
+```
+
+
+**500 Server Error**
+
+```
+HTTP/1.1 500 Server Error
+{
+    "error" : "{Motivo del error}"
+}
+```
+
 ### Buscar Precio por Fecha
     Ruta que permite buscar el precio de un artículo para una fecha determinadad
 
@@ -119,6 +195,37 @@ GET
         price: double,
         article_id: String
     }
+```
+**Reponse status:**
+**200 OK**
+
+```
+HTTP/1.1 200 OK
+```  
+
+**401 Unauthorized**
+
+```
+HTTP/1.1 401 Unauthorized
+```
+
+**400 Bad Request**
+
+```
+HTTP/1.1 400 Bad Request
+{
+    "error" : "{Motivo del error}"
+}
+```
+
+
+**500 Server Error**
+
+```
+HTTP/1.1 500 Server Error
+{
+    "error" : "{Motivo del error}"
+}
 ```
 
 ### Actualizar Precio
@@ -152,6 +259,37 @@ POST
         message: "Registro actualizado con éxito"
     }
 ```
+**Reponse status:**
+**200 OK**
+
+```
+HTTP/1.1 200 OK
+```  
+
+**401 Unauthorized**
+
+```
+HTTP/1.1 401 Unauthorized
+```
+
+**400 Bad Request**
+
+```
+HTTP/1.1 400 Bad Request
+{
+    "error" : "{Motivo del error}"
+}
+```
+
+
+**500 Server Error**
+
+```
+HTTP/1.1 500 Server Error
+{
+    "error" : "{Motivo del error}"
+}
+```
 
 ### Eliminar Precio
     Ruta que permite eliminar un precio actual de la base de datos
@@ -171,6 +309,37 @@ DELETE
         id: String,
         message: "Registro eliminado con éxito"
     }
+```
+**Reponse status:**
+**200 OK**
+
+```
+HTTP/1.1 200 OK
+```  
+
+**401 Unauthorized**
+
+```
+HTTP/1.1 401 Unauthorized
+```
+
+**400 Bad Request**
+
+```
+HTTP/1.1 400 Bad Request
+{
+    "error" : "{Motivo del error}"
+}
+```
+
+
+**500 Server Error**
+
+```
+HTTP/1.1 500 Server Error
+{
+    "error" : "{Motivo del error}"
+}
 ```
 
 
@@ -200,6 +369,39 @@ DELETE
         message: "Registro creado con éxito"
     }]
 ```
+
+**Reponse status:**
+**200 OK**
+
+```
+HTTP/1.1 200 OK
+```  
+
+**401 Unauthorized**
+
+```
+HTTP/1.1 401 Unauthorized
+```
+
+**400 Bad Request**
+
+```
+HTTP/1.1 400 Bad Request
+{
+    "error" : "{Motivo del error}"
+}
+```
+
+
+**500 Server Error**
+
+```
+HTTP/1.1 500 Server Error
+{
+    "error" : "{Motivo del error}"
+}
+```
+
 ### Buscar Descuento
     Ruta que permite obtener uno o varios descuentos a partir del id del artículo relacionado
 
@@ -221,6 +423,37 @@ GET
         discount: float,
         article_id: String
     }]
+```
+**Reponse status:**
+**200 OK**
+
+```
+HTTP/1.1 200 OK
+```  
+
+**401 Unauthorized**
+
+```
+HTTP/1.1 401 Unauthorized
+```
+
+**400 Bad Request**
+
+```
+HTTP/1.1 400 Bad Request
+{
+    "error" : "{Motivo del error}"
+}
+```
+
+
+**500 Server Error**
+
+```
+HTTP/1.1 500 Server Error
+{
+    "error" : "{Motivo del error}"
+}
 ```
 
 ### Buscar Descuento Fecha 
@@ -245,6 +478,37 @@ GET
         discount: float,
         article_id: String
     }
+```
+**Reponse status:**
+**200 OK**
+
+```
+HTTP/1.1 200 OK
+```  
+
+**401 Unauthorized**
+
+```
+HTTP/1.1 401 Unauthorized
+```
+
+**400 Bad Request**
+
+```
+HTTP/1.1 400 Bad Request
+{
+    "error" : "{Motivo del error}"
+}
+```
+
+
+**500 Server Error**
+
+```
+HTTP/1.1 500 Server Error
+{
+    "error" : "{Motivo del error}"
+}
 ```
 
 ### Actualizar Precio
@@ -278,6 +542,37 @@ POST
         message: "Registro actualizado con éxito"
     }
 ```
+**Reponse status:**
+**200 OK**
+
+```
+HTTP/1.1 200 OK
+```  
+
+**401 Unauthorized**
+
+```
+HTTP/1.1 401 Unauthorized
+```
+
+**400 Bad Request**
+
+```
+HTTP/1.1 400 Bad Request
+{
+    "error" : "{Motivo del error}"
+}
+```
+
+
+**500 Server Error**
+
+```
+HTTP/1.1 500 Server Error
+{
+    "error" : "{Motivo del error}"
+}
+```
 
 ### Eliminar Precio
     Ruta que permite eliminar un descuento actual de la base de datos
@@ -298,4 +593,101 @@ DELETE
         message: "Registro eliminado con éxito"
     }
 ```
+**Reponse status:**
+**200 OK**
+
+```
+HTTP/1.1 200 OK
+```  
+
+**401 Unauthorized**
+
+```
+HTTP/1.1 401 Unauthorized
+```
+
+**400 Bad Request**
+
+```
+HTTP/1.1 400 Bad Request
+{
+    "error" : "{Motivo del error}"
+}
+```
+
+
+**500 Server Error**
+
+```
+HTTP/1.1 500 Server Error
+{
+    "error" : "{Motivo del error}"
+}
+```
+
+## Rabbit
+
+### Rabbit GET
+
+#### Validación de artículos
+
+Escucha de mensajes article-exist desde car. Valida artículos
+
+``` DIRECT catalog/article-exist ```
+
+```
+{
+  "type": "article-exist",
+  "exchange" : "{Exchange name to reply}"
+  "queue" : "{Queue name to reply}"
+  "message" : {
+      "referenceId": "{referenceId}",
+      "articleId": "{articleId}",
+  }
+} 
+```
+
+#### Logout
+
+Esucha de mensajes de logout desde auth. Invalida acciones si el usuario no está logueado
+
+``` FANOUT auth/logout```
+
+```
+{
+   "type": "logout",
+   "message": "{tokenId}"
+}
+```
+
+### Rabbit POST
+
+Notifica el cambio del precio de un artículo
+
+DIRECT price/price_change
+
+```
+{
+    "type":"change",
+    "message":{
+        "article": {id of the article},
+        "price": {new price for te article},
+    }
+}
+```
+
+Notifica el cambio del descuento de un artículo
+
+DIRECT price/discount_change
+
+```
+{
+    "type":"change",
+    "message":{
+        "article": {id of the article},
+        "discount": {new discount for te article},
+    }
+}
+```
+
 
