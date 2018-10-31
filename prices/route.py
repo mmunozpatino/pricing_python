@@ -19,13 +19,13 @@ def init(app):
 
             params = json.body_to_dic(flask.request.data)
 
-            print(params)
+            # print(params)
 
             for price in params:
 
-                print("price", price)
+                # print("price", price)
                 pri = restValidator.validateAddPriceParams(price)
-                print("pri",pri)
+                # print("pri",pri)
                 result = crud.addPrice(pri)
 
             
