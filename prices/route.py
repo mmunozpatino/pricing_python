@@ -6,8 +6,6 @@ import prices.crud_service as crud
 import prices.rest_validations as restValidator
 
 
-
-
 def init(app):
     """
     Iniciamos las rutas para los descuentos
@@ -21,9 +19,16 @@ def init(app):
 
             params = json.body_to_dic(flask.request.data)
 
-            params = restValidator.validateAddPriceParams(params)
+            print(params)
 
-            result = crud.addPrice(params)
+            for price in params:
+
+                print("price", price)
+                pri = restValidator.validateAddPriceParams(price)
+                print("pri",pri)
+                result = crud.addPrice(pri)
+
+            
 
             security.isValidToken(token)
             return "Hola para el post con el token: "+token
