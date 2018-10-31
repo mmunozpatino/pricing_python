@@ -18,11 +18,13 @@ def init(app):
             token = flask.request.headers.get("Authorization")
 
             params = json.body_to_dic(flask.request.data)
+            
+            for discount in params:
 
-            # print(params)
-            params = restValidator.validateAddPriceParams(params)
-            # print("pri",pri)
-            params = crud.addDiscount(params)
+                # print("price", price)
+                dis = restValidator.validateAddPriceParams(discount)
+                # print("pri",pri)
+                result = crud.addDiscount(dis)
 
             # for price in params:
 
