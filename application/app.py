@@ -1,5 +1,6 @@
 import flask
 import prices.route as pricesRoutes
+import discounts.route as discountsRoutes
 import rabbit.rabbit_service as rabbitService
 import utils.config as config
 import os.path
@@ -13,6 +14,7 @@ class MainApp:
         print("hola desde app")
         # self._generate_api_doc()
         self._init_routes()
+        self._init_discounts()
         # self._init_rabbit()
         self._init_prices()
 
@@ -34,6 +36,10 @@ class MainApp:
 
     def _init_prices(self):
         pricesRoutes.init(self.flask_app)
+
+    
+    def _init_discounts(self):
+        discountsRoutes.init(self.flask_app)
 
     def get_flask_app(self):
             return self.flask_app
