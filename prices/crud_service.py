@@ -13,11 +13,11 @@ def getPrice(articleId):
     try:
         print('TCL: articleId', articleId);
         result = db.prices.find_one({"_id": bson.ObjectId("5bdb8bde2f49670e3c373a57")})
-        # strDate = result['fechaDesde']
-        strDate = '13/5/18'
+        strDate = result['fechaDesde']
+        # strDate = '2/4/18'
         objDate = datetime.strptime(strDate, '%m/%d/%y')
         print('TCL: result', result)
-        # print('TCL: result', objDate)
+        print('TCL: result', objDate.day)
         # for price in result: 
         #     print("el dia es ")
         #     print("hola")
