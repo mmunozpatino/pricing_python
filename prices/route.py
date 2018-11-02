@@ -4,6 +4,7 @@ import utils.security as security
 import flask
 import prices.crud_service as crud
 import prices.rest_validations as restValidator
+import datetime
 
 
 def init(app):
@@ -17,6 +18,8 @@ def init(app):
 
             token = flask.request.headers.get("Authorization")
 
+            security.isValidToken(token)
+
             params = json.body_to_dic(flask.request.data)
 
             # print(params)
@@ -28,21 +31,29 @@ def init(app):
                 # print("pri",pri)
                 result = crud.addPrice(pri)
 
-            
-
-            security.isValidToken(token)
             return "Hola para el post con el token: "+token
         except Exception as err:
             return errors.handleError(err)
 
-        # try:
-        #     # security.isValidToken()
-        #     # params = json.body_to_dic(flask.request.data)
+    @app.route('/v1/prices/<articleId>', methods=['POST'])
+    def updatePrice(articleId):
+        try:
 
-        #     # result = crud.
-        #     print("hola")
-        #     return True
+            token = flask.request.headers.get("Authorization")
 
-        # except Exception as err:
-        #     return False
-    
+            security.isValidToken(token)
+
+            # print("now "+ datetime.datetime.utcnow())
+
+            print("articleID "+articleId)
+
+            params = json.body_to_dic(flask.request.data)
+
+            params = restValidator.validateEditPriceParams(articleId, params)
+
+            result = crud.updatePrice(articleId, params)
+
+            return json.dic_to_json(result)
+        except Exception as err:
+            print("error")
+            return errors.handleError(err)

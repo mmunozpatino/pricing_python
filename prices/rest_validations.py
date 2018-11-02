@@ -37,18 +37,18 @@ def validateAddPriceParams(params):
     return schemaValidator.validateAndClean(PRICE_UPDATE_SCHEMA, params)
 
 
-def validateEditPriceParams(articleId, params):
+def validateEditPriceParams(priceId, params):
     """
     Valida los parametros para actualizar un objeto.\n
     params: dict<propiedad, valor> Article
     """
-    if (not articleId):
+    if (not priceId):
         raise error.InvalidArgument("_id", "Inválido")
 
-    return schemaValidator.validateAndClean(ARTICLE_UPDATE_SCHEMA, params)
+    return schemaValidator.validateAndClean(PRICE_UPDATE_SCHEMA, params)
 
 
-def validatePriceExist(articleId):
-    article = crud.getPrice(articleId)
+def validatePriceExist(priceId):
+    article = crud.getPrice(priceId)
     if("enabled" not in article or not article["enabled"]):
         raise error.InvalidArgument("_id", "Inválido")
