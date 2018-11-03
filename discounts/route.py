@@ -21,14 +21,9 @@ def init(app):
             
             for discount in params:
 
-                # print("price", price)
                 dis = restValidator.validateAddPriceParams(discount)
-                # print("pri",pri)
                 result = crud.addDiscount(dis)
 
-            # for price in params:
-
-            # print("price", price)
 
             security.isValidToken(token)
 
@@ -36,13 +31,26 @@ def init(app):
         except Exception as err:
             return errors.handleError(err)
 
-        # try:
-        #     # security.isValidToken()
-        #     # params = json.body_to_dic(flask.request.data)
+    @app.route('/v1/discounts/<articleId>', methods=['POST'])
+    def updateDiscount(articleId):
+        try:
 
-        #     # result = crud.
-        #     print("hola")
-        #     return True
+            token = flask.request.headers.get("Authorization")
 
-        # except Exception as err:
-        #     return False
+            security.isValidToken(token)
+
+            # print("now "+ datetime.datetime.utcnow())
+
+            print("articleID "+articleId)
+
+            params = json.body_to_dic(flask.request.data)
+
+            params = restValidator.validateEditDiscountParams(articleId, params)
+
+            result = crud.updateDiscount(articleId, params)
+
+            return json.dic_to_json(result)
+        except Exception as err:
+            print("error")
+            return errors.handleError(err)
+

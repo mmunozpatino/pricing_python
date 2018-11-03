@@ -3,153 +3,82 @@
 import utils.mongo as db
 import utils.errors as error
 import bson.objectid as bson
-import datetime
+from datetime import datetime
 import discounts.discount_schema as schema
 
 
-def getArticle(articleId):
-    """
-    Obtiene un articulo. \n
-    articleId: string ObjectId\n
-    return dict<propiedad, valor> Articulo\n
-    """
-    """
-    @api {get} /v1/articles/:articleId Buscar Artículo
-    @apiName Buscar Artículo
-    @apiGroup Articulos
-
-    @apiSuccessExample {json} Respuesta
-        HTTP/1.1 200 OK
-        {
-            "_id": "{id de articulo}"
-            "name": "{nombre del articulo}",
-            "description": "{descripción del articulo}",
-            "image": "{id de imagen}",
-            "price": {precio actual},
-            "stock": {stock actual}
-            "updated": {fecha ultima actualización}
-            "created": {fecha creación}
-            "enabled": {activo}
-        }
-
-    @apiUse Errors
-
-    """
+def getDiscount(articleId):
+    
     try:
-        result = db.articles.find_one({"_id": bson.ObjectId(articleId)})
+        # print('TCL: articleId', articleId)
+        print("va a buscar")
+        result = db.discounts.find({"article_id": articleId})
+        ultimoDescuentoSuma = 0
+        ultimoDescuento = {}
+        print("result", result)
+        for discount in result: 
+            print("discount", discount)
+            strDate = discount['fechaDesde']
+            print('TCL: strDate', strDate);
+            objDate = datetime.strptime(strDate, '%Y-%m-%dT%H:%M:%S')
+            print('TCL: objDate', objDate)
+            print("el día de creación es: ",objDate.day)
+            sumaPrecio = objDate.day + objDate.month + objDate.year + objDate.hour + objDate.minute
+            # print("sumatoria de la fecha ",sumaPrecio)
+            if(sumaPrecio > ultimoDescuentoSuma):
+                ultimoDescuentoSuma = sumaPrecio
+                # print("el mayor es ",sumaPrecio)
+                ultimoDescuento = discount
+        print("resulto mayor: ",ultimoDescuento['_id'])
+
         if (not result):
             raise error.InvalidArgument("_id", "Document does not exists")
-        return result
-    except Exception:
+        return ultimoDescuento
+    except Exception: 
         raise error.InvalidArgument("_id", "Invalid object id")
 
 
+
 def addDiscount(params):
-    """
-    Agrega un articulo.\n
-    params: dict<propiedad, valor> Articulo\n
-    return dict<propiedad, valor> Articulo
-    """
-    """
-    @api {post} /v1/articles/ Crear Artículo
-    @apiName Crear Artículo
-    @apiGroup Articulos
-
-    @apiUse AuthHeader
-
-    @apiExample {json} Body
-        {
-            "name": "{nombre del articulo}",
-            "description": "{descripción del articulo}",
-            "image": "{id de imagen}",
-            "price": {precio actual},
-            "stock": {stock actual}
-        }
-
-    @apiSuccessExample {json} Respuesta
-        HTTP/1.1 200 OK
-        {
-            "_id": "{id de articulo}"
-            "name": "{nombre del articulo}",
-            "description": "{descripción del articulo}",
-            "image": "{id de imagen}",
-            "price": {precio actual},
-            "stock": {stock actual}
-            "updated": {fecha ultima actualización}
-            "created": {fecha creación}
-            "enabled": {si esta activo}
-        }
-
-    @apiUse Errors
-
-    """
+    
     return _addOrUpdateDiscount(params)
 
 
-def updateArticle(articleId, params):
-    """
-    Actualiza un articulo. \n
-    articleId: string ObjectId\n
-    params: dict<propiedad, valor> Articulo\n
-    return dict<propiedad, valor> Articulo\n
-    """
-    """
-    @api {post} /v1/articles/:articleId Actualizar Artículo
-    @apiName Actualizar Artículo
-    @apiGroup Articulos
+def updateDiscount(articleId, params):
+    
+    # params["_id"] = discountId
 
-    @apiUse AuthHeader
+    discounts = schema.newDiscount()
 
-    @apiExample {json} Body
-        {
-            "name": "{nombre del articulo}",
-            "description": "{descripción del articulo}",
-            "image": "{id de imagen}",
-            "price": {precio actual},
-            "stock": {stock actual}
-        }
+    print('TCL: params["article_id"]', params["article_id"])
+    isNew = False
+    discounts = getDiscount(params["article_id"])
+    print('TCL: discounts', discounts);
 
-    @apiSuccessExample {json} Respuesta
-        HTTP/1.1 200 OK
-        {
-            "_id": "{id de articulo}"
-            "name": "{nombre del articulo}",
-            "description": "{descripción del articulo}",
-            "image": "{id de imagen}",
-            "price": {precio actual},
-            "stock": {stock actual}
-            "updated": {fecha ultima actualización}
-            "created": {fecha creación}
-            "enabled": {si esta activo}
-        }
+    
+    # Actualizamos los valores validos a actualizar
+    discounts.update(params)
 
-    @apiUse Errors
+    # print("params: ",params)
 
-    """
-    params["_id"] = articleId
-    return _addOrUpdateDiscount(params)
+    discounts["updated"] = datetime.utcnow()
+    params["_id"] = discounts["_id"]
+
+    schema.validateSchema(discounts)
+
+    del discounts["_id"]
+    r = db.discounts.replace_one(
+        {"_id": bson.ObjectId(params["_id"])}, discounts)
+    discounts["_id"] = params["_id"]
+
+    response = {}
+    response["article_id"] = discounts["article_id"]
+    response["message"] = "Descuento actualizado con exito"
+    
+    return response
 
 
 def delArticle(articleId):
-    """
-    Marca un articulo como invalido.\n
-    articleId: string ObjectId
-    """
-    """
-    Elimina un articulo : delArticle(articleId: string)
-
-    @api {delete} /articles/:articleId Eliminar Artículo
-    @apiName Eliminar Artículo
-    @apiGroup Articulos
-
-    @apiUse AuthHeader
-
-    @apiSuccessExample {json} 200 Respuesta
-        HTTP/1.1 200 OK
-
-    @apiUse Errors
-
-    """
     article = getArticle(articleId)
     article["updated"] = datetime.datetime.utcnow()
     article["enabled"] = False

@@ -19,7 +19,7 @@
         - [Buscar Descuento por artículo](#buscar-descuento-por-art%C3%ADculo)
         - [Buscar Descuento por código](#buscar-descuento-por-c%C3%B3digo)
         - [Buscar Descuento Fecha](#buscar-descuento-fecha)
-        - [Actualizar Precio](#actualizar-precio)
+        - [Actualizar Descuento](#actualizar-descuento)
     - [Rabbit](#rabbit)
         - [Rabbit GET](#rabbit-get)
             - [Validación de artículos](#validaci%C3%B3n-de-art%C3%ADculos)
@@ -511,7 +511,7 @@ HTTP/1.1 500 Server Error
 }
 ```
 
-### Actualizar Precio
+### Actualizar Descuento
     Ruta que permite modificar un descuento existente a partir del correspondiente código
 
 **URL:**  

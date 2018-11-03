@@ -8,13 +8,17 @@ import numbers
 
 
 # Son validaciones sobre las propiedades que pueden actualizarse desde REST
-PRICE_UPDATE_SCHEMA = {
+DISCOUNT_UPDATE_SCHEMA = {
     "article_id": {
         "type": str,
         "minLen": 1,
         "maxLen": 60
         },
-    "price": {
+    "discount_percentage": {
+        "type": numbers.Real,
+        "min":0
+        },
+    "discount_amount": {
         "type": numbers.Real,
         "min":0
         },
@@ -37,15 +41,11 @@ def validateAddPriceParams(params):
     return schemaValidator.validateAndClean(PRICE_UPDATE_SCHEMA, params)
 
 
-def validateEditPriceParams(articleId, params):
-    """
-    Valida los parametros para actualizar un objeto.\n
-    params: dict<propiedad, valor> Article
-    """
+def validateEditDiscountParams(articleId, params):
     if (not articleId):
         raise error.InvalidArgument("_id", "Inválido")
 
-    return schemaValidator.validateAndClean(ARTICLE_UPDATE_SCHEMA, params)
+    return schemaValidator.validateAndClean(DISCOUNT_UPDATE_SCHEMA, params)
 
 
 def validatePriceExist(articleId):
