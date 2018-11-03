@@ -57,3 +57,11 @@ def init(app):
         except Exception as err:
             print("error")
             return errors.handleError(err)
+
+    
+    @app.route('/v1/prices/<articleId>', methods=['GET'])
+    def getPrice(articleId):
+        try:
+            return json.dic_to_json(crud.getPrice(articleId))
+        except Exception as err:
+            return errors.handleError(err)

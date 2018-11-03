@@ -13,6 +13,7 @@ def getPrice(articleId):
     try:
         # print('TCL: articleId', articleId)
         # print("va a buscar")
+        ## TODO: verificar también la vigencia de los precios y ver la suma
         result = db.prices.find({"article_id": articleId})
         ultimoPrecioSuma = 0
         ultimoPrecio = {}
@@ -20,7 +21,7 @@ def getPrice(articleId):
         for price in result: 
             # print("price", price)
             strDate = price['fechaDesde']
-            # print('TCL: strDate', strDate);
+            print('TCL: strDate', strDate);
             objDate = datetime.strptime(strDate, '%Y-%m-%dT%H:%M:%S')
             # print('TCL: objDate', objDate)
             # print("el día de creación es: ",objDate.day)
@@ -30,7 +31,8 @@ def getPrice(articleId):
                 ultimoPrecioSuma = sumaPrecio
                 # print("el mayor es ",sumaPrecio)
                 ultimoPrecio = price
-        print("resulto mayor: ",ultimoPrecio['_id'])
+        print("el precio mayor es: ",ultimoPrecioSuma)
+        print("resulto mayor: ",ultimoPrecio)
 
         if (not result):
             raise error.InvalidArgument("_id", "Document does not exists")

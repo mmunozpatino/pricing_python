@@ -350,7 +350,7 @@ HTTP/1.1 500 Server Error
     Ruta que permite obtener uno o varios descuentos a partir del id del artículo relacionado
 
 **URL:**  
- /v1/discount/:article_id  
+ /v1/discount/article=:article_id  
 
 **Method:**   
 GET  
@@ -404,13 +404,13 @@ HTTP/1.1 500 Server Error
     Ruta que permite obtener uno o varios descuentos a partir del id del artículo relacionado
 
 **URL:**  
- /v1/discount/:article_id  
+ /v1/discount/:discount_code
 
 **Method:**   
 GET  
 
 **Parámetros:**   
-    - *article_id:* id del artículo deseado
+    - *discount_code:* código del descuento deseado
   
 **Response Body:** 
 ```   
@@ -459,7 +459,7 @@ HTTP/1.1 500 Server Error
     Ruta que permite buscar el descuento de un artículo para una fecha determinada
 
 **URL:**  
-/v1/discount/:article_id?fecha=:fecha  
+/v1/discount/article=:article_id?fecha=:fecha  
 
 **Method:**  
 GET  

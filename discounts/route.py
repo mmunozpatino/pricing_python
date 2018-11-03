@@ -53,4 +53,17 @@ def init(app):
         except Exception as err:
             print("error")
             return errors.handleError(err)
+    
+    @app.route('/v1/discounts/<discountCode>', methods=['GET'])
+    def getDiscount(discountCode):
+        try:
+            return json.dic_to_json(crud.getDiscount(discountCode))
+        except Exception as err:
+            return errors.handleError(err)
 
+    @app.route('/v1/discounts/article=<articleId>', methods=['GET'])
+    def getDiscountByArticle(articleId):
+        try:
+            return json.dic_to_json(crud.getDiscountByArticle(articleId))
+        except Exception as err:
+            return errors.handleError(err)
