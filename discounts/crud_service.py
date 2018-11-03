@@ -43,11 +43,11 @@ def getDiscount(articleId):
 
 
 def addDiscount(params):
-    password = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(6))
+    code = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(6))
 
-    params['discount_code'] = password
+    params['discount_code'] = code
 
-    print ("el codigo generado es: "+password)
+    # print ("el codigo generado es: "+code)
     return _addOrUpdateDiscount(params)
 
 
