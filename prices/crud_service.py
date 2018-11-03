@@ -102,7 +102,7 @@ def _addOrUpdatePrice(params):
     # Actualizamos los valores validos a actualizar
     prices.update(params)
 
-    prices["updated"] = datetime.datetime.utcnow()
+    prices["updated"] = datetime.utcnow()
 
     schema.validateSchema(prices)
 

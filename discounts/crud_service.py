@@ -6,6 +6,9 @@ import bson.objectid as bson
 from datetime import datetime
 import discounts.discount_schema as schema
 
+import random
+import string
+
 
 def getDiscount(articleId):
     
@@ -40,7 +43,11 @@ def getDiscount(articleId):
 
 
 def addDiscount(params):
-    
+    password = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(6))
+
+    params['discount_code'] = password
+
+    print ("el codigo generado es: "+password)
     return _addOrUpdateDiscount(params)
 
 
@@ -102,7 +109,7 @@ def _addOrUpdateDiscount(params):
     # Actualizamos los valores validos a actualizar
     discounts.update(params)
 
-    discounts["updated"] = datetime.datetime.utcnow()
+    discounts["updated"] = datetime.utcnow()
 
     schema.validateSchema(discounts)
 
