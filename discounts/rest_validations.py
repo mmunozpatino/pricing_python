@@ -41,8 +41,8 @@ def validateAddPriceParams(params):
     return schemaValidator.validateAndClean(DISCOUNT_UPDATE_SCHEMA, params)
 
 
-def validateEditDiscountParams(articleId, params):
-    if (not articleId):
+def validateEditDiscountParams(discountCode, params):
+    if (not discountCode):
         raise error.InvalidArgument("_id", "Inválido")
 
     return schemaValidator.validateAndClean(DISCOUNT_UPDATE_SCHEMA, params)

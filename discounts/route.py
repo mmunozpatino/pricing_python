@@ -31,8 +31,8 @@ def init(app):
         except Exception as err:
             return errors.handleError(err)
 
-    @app.route('/v1/discounts/<articleId>', methods=['POST'])
-    def updateDiscount(articleId):
+    @app.route('/v1/discounts/<discountCode>', methods=['POST'])
+    def updateDiscount(discountCode):
         try:
 
             token = flask.request.headers.get("Authorization")
@@ -41,13 +41,13 @@ def init(app):
 
             # print("now "+ datetime.datetime.utcnow())
 
-            print("articleID "+articleId)
+            print("articleID "+discountCode)
 
             params = json.body_to_dic(flask.request.data)
 
-            params = restValidator.validateEditDiscountParams(articleId, params)
+            params = restValidator.validateEditDiscountParams(discountCode, params)
 
-            result = crud.updateDiscount(articleId, params)
+            result = crud.updateDiscount(discountCode, params)
 
             return json.dic_to_json(result)
         except Exception as err:

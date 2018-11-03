@@ -10,33 +10,33 @@ import random
 import string
 
 
-def getDiscount(articleId):
+def getDiscount(discountCode):
     
     try:
-        # print('TCL: articleId', articleId)
+        # print('TCL: discountCode', discountCode)
         print("va a buscar")
-        result = db.discounts.find({"article_id": articleId})
-        ultimoDescuentoSuma = 0
-        ultimoDescuento = {}
+        result = db.discounts.find_one({"discount_code": discountCode})
+        # ultimoDescuentoSuma = 0
+        # ultimoDescuento = {}
         print("result", result)
-        for discount in result: 
-            print("discount", discount)
-            strDate = discount['fechaDesde']
-            print('TCL: strDate', strDate);
-            objDate = datetime.strptime(strDate, '%Y-%m-%dT%H:%M:%S')
-            print('TCL: objDate', objDate)
-            print("el día de creación es: ",objDate.day)
-            sumaPrecio = objDate.day + objDate.month + objDate.year + objDate.hour + objDate.minute
-            # print("sumatoria de la fecha ",sumaPrecio)
-            if(sumaPrecio > ultimoDescuentoSuma):
-                ultimoDescuentoSuma = sumaPrecio
-                # print("el mayor es ",sumaPrecio)
-                ultimoDescuento = discount
-        print("resulto mayor: ",ultimoDescuento['_id'])
+        # for discount in result: 
+        #     print("discount", discount)
+        #     strDate = discount['fechaDesde']
+        #     print('TCL: strDate', strDate);
+        #     objDate = datetime.strptime(strDate, '%Y-%m-%dT%H:%M:%S')
+        #     print('TCL: objDate', objDate)
+        #     print("el día de creación es: ",objDate.day)
+        #     sumaPrecio = objDate.day + objDate.month + objDate.year + objDate.hour + objDate.minute
+        #     # print("sumatoria de la fecha ",sumaPrecio)
+        #     if(sumaPrecio > ultimoDescuentoSuma):
+        #         ultimoDescuentoSuma = sumaPrecio
+        #         # print("el mayor es ",sumaPrecio)
+        #         ultimoDescuento = discount
+        # print("resulto mayor: ",ultimoDescuento['_id'])
 
         if (not result):
             raise error.InvalidArgument("_id", "Document does not exists")
-        return ultimoDescuento
+        return result
     except Exception: 
         raise error.InvalidArgument("_id", "Invalid object id")
 
@@ -51,16 +51,17 @@ def addDiscount(params):
     return _addOrUpdateDiscount(params)
 
 
-def updateDiscount(articleId, params):
+def updateDiscount(discountCode, params):
+    print('TCL: discountCode', discountCode);
     
     # params["_id"] = discountId
 
     discounts = schema.newDiscount()
 
-    print('TCL: params["article_id"]', params["article_id"])
+    # print('TCL: params["article_id"]', params["article_id"])
     isNew = False
-    discounts = getDiscount(params["article_id"])
-    print('TCL: discounts', discounts);
+    discounts = getDiscount(discountCode)
+    # print('TCL: discounts', discounts);
 
     
     # Actualizamos los valores validos a actualizar
