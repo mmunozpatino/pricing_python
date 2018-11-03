@@ -11,23 +11,31 @@ import prices.price_schema as schema
 def getPrice(articleId):
 
     try:
-        print('TCL: articleId', articleId);
-        result = db.prices.find_one({"_id": bson.ObjectId("5bdb8bde2f49670e3c373a57")})
-        strDate = result['fechaDesde']
-        # strDate = '2/4/18'
-        objDate = datetime.strptime(strDate, '%m/%d/%y')
-        print('TCL: result', result)
-        print('TCL: result', objDate.day)
-        # for price in result: 
-        #     print("el dia es ")
-        #     print("hola")
-        #     x = datetime.datetime.now()
-        #     print("fechaDesde " + x.year)
-            # dy = datetime.strptime(price["fechaDesde"], '%j')
+        # print('TCL: articleId', articleId)
+        # print("va a buscar")
+        result = db.prices.find({"article_id": articleId})
+        ultimoPrecioSuma = 0
+        ultimoPrecio = {}
+        # print("result", result)
+        for price in result: 
+            # print("price", price)
+            strDate = price['fechaDesde']
+            # print('TCL: strDate', strDate);
+            objDate = datetime.strptime(strDate, '%Y-%m-%dT%H:%M:%S')
+            # print('TCL: objDate', objDate)
+            # print("el día de creación es: ",objDate.day)
+            sumaPrecio = objDate.day + objDate.month + objDate.year + objDate.hour + objDate.minute
+            # print("sumatoria de la fecha ",sumaPrecio)
+            if(sumaPrecio > ultimoPrecioSuma):
+                ultimoPrecioSuma = sumaPrecio
+                # print("el mayor es ",sumaPrecio)
+                ultimoPrecio = price
+        print("resulto mayor: ",ultimoPrecio['_id'])
+
         if (not result):
             raise error.InvalidArgument("_id", "Document does not exists")
-        return result
-    except Exception:
+        return ultimoPrecio
+    except Exception: 
         raise error.InvalidArgument("_id", "Invalid object id")
 
 
@@ -42,16 +50,19 @@ def updatePrice(articleId, params):
 
     prices = schema.newPrice()
 
-    print('TCL: params["article_id"]', params["article_id"])
+    # print('TCL: params["article_id"]', params["article_id"])
     isNew = False
     prices = getPrice(params["article_id"])
-    print('TCL: prices', prices);
+    # print('TCL: prices', prices);
 
     
     # Actualizamos los valores validos a actualizar
     prices.update(params)
 
-    # prices["updated"] = datetime.datetime.utcnow()
+    # print("params: ",params)
+
+    prices["updated"] = datetime.utcnow()
+    params["_id"] = prices["_id"]
 
     schema.validateSchema(prices)
 
@@ -59,8 +70,12 @@ def updatePrice(articleId, params):
     r = db.prices.replace_one(
         {"_id": bson.ObjectId(params["_id"])}, prices)
     prices["_id"] = params["_id"]
+
+    response = {}
+    response["article_id"] = prices["article_id"]
+    response["message"] = "Precio actualizado con exito"
     
-    return prices
+    return response
 
 
 def delArticle(articleId):
