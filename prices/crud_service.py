@@ -6,6 +6,9 @@ import bson.objectid as bson
 from datetime import datetime
 import prices.price_schema as schema
 
+from rabbit.rabbit_service import sendNewPrice
+from rabbit.rabbit_service import sendChangePrice
+
 
 def getPrice(articleId):
 
@@ -102,6 +105,7 @@ def updatePrice(articleId, params):
     response = {}
     response["article_id"] = prices["article_id"]
     response["message"] = "Precio actualizado con exito"
+    sendChangePrice("prices","prices", params["article_id"], prices["_id"])
     
     return response
 
@@ -141,5 +145,6 @@ def _addOrUpdatePrice(params):
         prices["_id"] = params["_id"]
     else:
         prices["_id"] = db.prices.insert_one(prices).inserted_id
+        sendNewPrice("prices","prices", params["article_id"], prices["_id"])
 
     return prices

@@ -15,7 +15,7 @@ class MainApp:
         # self._generate_api_doc()
         self._init_routes()
         self._init_discounts()
-        # self._init_rabbit()
+        self._init_rabbit()
         self._init_prices()
 
     def _generate_api_doc(self):
@@ -31,7 +31,7 @@ class MainApp:
             return flask.send_from_directory('../public', "index.html")
     
     def _init_rabbit(self):
-        # rabbitService.init()
+        rabbitService.init()
         pass
 
     def _init_prices(self):
