@@ -36,6 +36,32 @@ def getDiscountByArticle(articleId):
     except Exception:
         raise error.InvalidArgument("_id", "Invalid object id")
 
+def getDiscountByDate(articleId, discountDate):
+    
+    try:
+        print("llego ",discountDate)
+        discountDate = datetime.strptime(discountDate, '%d/%m/%y')
+
+        result = db.discounts.find({"article_id": articleId})
+        resultPrice = {}
+        for price in result: 
+            strDate = price['fechaDesde']
+            objDate = datetime.strptime(strDate, '%Y-%m-%dT%H:%M:%S')
+            if(objDate.year == discountDate.year and objDate.month == discountDate.month and objDate.day == discountDate.day):
+                # print("encontró", price)
+                resultPrice = price
+                # return price
+        if(resultPrice):
+            return resultPrice
+        else:
+            return {}
+
+        if (not result):
+            raise error.InvalidArgument("_id", "Document does not exists")
+        return ultimoPrecio
+    except Exception: 
+        raise error.InvalidArgument("_id", "Invalid object id")
+
 
 def addDiscount(params):
     code = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(6))

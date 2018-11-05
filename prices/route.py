@@ -67,3 +67,15 @@ def init(app):
             return json.dic_to_json(crud.getPrice(articleId))
         except Exception as err:
             return errors.handleError(err)
+
+    @app.route('/v1/price/<articleId>', methods=['GET'])
+    def getPriceByDate(articleId):
+        print("ejecuta")
+        try:
+            priceDate = flask.request.args.get('fecha')
+            # print("llego ", priceDate)
+            return json.dic_to_json(crud.getPriceByDate(articleId,priceDate))
+            # return "funciono"
+
+        except Exception as err:
+            return errors.handleError(err)
