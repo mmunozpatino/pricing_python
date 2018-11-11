@@ -7,7 +7,7 @@ from datetime import datetime
 import prices.price_schema as schema
 
 from rabbit.rabbit_service import sendNewPrice
-from rabbit.rabbit_service import sendChangePrice
+# from rabbit.rabbit_service import sendChangePrice
 
 
 def getPrice(articleId):
@@ -23,7 +23,7 @@ def getPrice(articleId):
         for price in result:
             # print("price", price)
             strDate = price['fechaDesde']
-            print('TCL: strDate', strDate);
+            print('TCL: strDate', strDate)
             objDate = datetime.strptime(strDate, '%Y-%m-%dT%H:%M:%S')
             # print('TCL: objDate', objDate)
             # print("el día de creación es: ",objDate.day)
@@ -47,12 +47,12 @@ def getPrice(articleId):
 def getPriceByDate(articleId, priceDate):
 
     try:
-        print("llego ",priceDate)
+        print("llego ", priceDate)
         priceDate = datetime.strptime(priceDate, '%d/%m/%y')
 
         result = db.prices.find({"article_id": articleId})
         resultPrice = {}
-        for price in result: 
+        for price in result:
             strDate = price['fechaDesde']
             objDate = datetime.strptime(strDate, '%Y-%m-%dT%H:%M:%S')
             if(objDate.year == priceDate.year and objDate.month == priceDate.month and objDate.day == priceDate.day):
@@ -67,8 +67,9 @@ def getPriceByDate(articleId, priceDate):
         if (not result):
             raise error.InvalidArgument("_id", "Document does not exists")
         return ultimoPrecio
-    except Exception: 
+    except Exception:
         raise error.InvalidArgument("_id", "Invalid object id")
+
 
 def addPrice(params):
 
@@ -86,7 +87,6 @@ def updatePrice(articleId, params):
     prices = getPrice(params["article_id"])
     # print('TCL: prices', prices);
 
-    
     # Actualizamos los valores validos a actualizar
     prices.update(params)
 
@@ -105,8 +105,12 @@ def updatePrice(articleId, params):
     response = {}
     response["article_id"] = prices["article_id"]
     response["message"] = "Precio actualizado con exito"
-    sendChangePrice("prices","prices", params["article_id"], prices["_id"])
-    
+
+    menssage = {}
+    menssage['article'] = prices["article_id"]
+    menssage['price'] = prices['price']
+    sendNewPrice("prices", "prices", "update-price", menssage)
+
     return response
 
 
@@ -144,7 +148,13 @@ def _addOrUpdatePrice(params):
             {"_id": bson.ObjectId(params["_id"])}, prices)
         prices["_id"] = params["_id"]
     else:
+        response = {}
+        menssage = {}
+        response["article_id"] = prices["article_id"]
+        response["message"] = "Precio creado con exito"
+        menssage['article'] = prices["article_id"]
+        menssage['price'] = prices['price']
         prices["_id"] = db.prices.insert_one(prices).inserted_id
-        sendNewPrice("prices","prices", params["article_id"], prices["_id"])
+        sendNewPrice("prices", "prices", "new-price", menssage)
 
-    return prices
+    return response

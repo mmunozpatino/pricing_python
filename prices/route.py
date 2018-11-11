@@ -24,14 +24,19 @@ def init(app):
 
             # print(params)
 
+            responses = []
+
             for price in params:
 
                 # print("price", price)
                 pri = restValidator.validateAddPriceParams(price)
                 # print("pri",pri)
                 result = crud.addPrice(pri)
-
-            return "Hola para el post con el token: "+token
+                responses.append(result.copy())
+            
+            print(responses)
+            # return json.dic_to_json(result)
+            return json.dic_to_json(responses)
         except Exception as err:
             return errors.handleError(err)
 
@@ -39,6 +44,7 @@ def init(app):
     def updatePrice(articleId):
         try:
 
+            print('entro')
             token = flask.request.headers.get("Authorization")
 
             security.isValidToken(token)
@@ -58,12 +64,11 @@ def init(app):
             print("error")
             return errors.handleError(err)
 
-    
     @app.route('/v1/prices/<articleId>', methods=['GET'])
     def getPrice(articleId):
         print("ejecuta")
         try:
-            
+
             return json.dic_to_json(crud.getPrice(articleId))
         except Exception as err:
             return errors.handleError(err)
@@ -74,7 +79,7 @@ def init(app):
         try:
             priceDate = flask.request.args.get('fecha')
             # print("llego ", priceDate)
-            return json.dic_to_json(crud.getPriceByDate(articleId,priceDate))
+            return json.dic_to_json(crud.getPriceByDate(articleId, priceDate))
             # return "funciono"
 
         except Exception as err:
