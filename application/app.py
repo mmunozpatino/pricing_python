@@ -11,7 +11,7 @@ class MainApp:
     def __init__(self):
         self.flask_app = flask.Flask(__name__, static_folder='../public')
         CORS(self.flask_app, supports_credentials=True, automatic_options=True)
-        print("hola desde app")
+        # print("hola desde app")
         # self._generate_api_doc()
         self._init_routes()
         self._init_discounts()
@@ -46,4 +46,4 @@ class MainApp:
     
     def start(self):
         # debug True para que escuche los cambios
-        self.flask_app.run(port= config.get_server_port(),debug=True)
+        self.flask_app.run(port= config.get_server_port(),debug=False)
