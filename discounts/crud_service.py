@@ -106,6 +106,11 @@ def updateDiscount(discountCode, params):
     response = {}
     response["article_id"] = discounts["article_id"]
     response["message"] = "Descuento actualizado con exito"
+    # menssage= {}
+    # menssage['article'] = discounts["article_id"]
+    # menssage['discount_code'] = discounts['discount_code']
+    sendNewDiscount("discounts", "discounts", "update-discount", menssage)
+
     
     return response
 
@@ -146,8 +151,13 @@ def _addOrUpdateDiscount(params):
     else:
         discounts["_id"] = db.discounts.insert_one(discounts).inserted_id
         response = {}
+        menssage = {}
         response['article'] = discounts["article_id"]
         response['discount_code'] = discounts['discount_code']
         response['message'] = 'Descuento creado con éxito'
+        menssage['article'] = discounts["article_id"]
+        menssage['discount_code'] = discounts['discount_code']
+        sendNewDiscount("discounts", "discounts", "new-discount", menssage)
+
 
     return response
