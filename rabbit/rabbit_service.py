@@ -125,3 +125,24 @@ def sendNewPrice(exchange, queue, type, prices):
     print(" [x] Sent %r" % message)
 
     connection.close()
+
+
+def sendNewDiscount(exchange, queue, type, Discounts):
+
+    # print("LLAMA A LA FUNCION")
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=config.get_rabbit_server_url()))
+    channel = connection.channel()
+
+    channel.exchange_declare(exchange=exchange, exchange_type='fanout')
+    channel.queue_declare(queue = queue)
+
+    message = {
+        "type": type,
+        "message": Discounts
+    }
+
+    channel.basic_publish(exchange=exchange, routing_key=queue, body=json.dic_to_json(message))
+    # print("llega")
+    print(" [x] Sent %r" % message)
+
+    connection.close()

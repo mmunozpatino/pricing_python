@@ -19,15 +19,21 @@ def init(app):
 
             params = json.body_to_dic(flask.request.data)
             
+            responses = []
+
             for discount in params:
 
                 dis = restValidator.validateAddPriceParams(discount)
                 result = crud.addDiscount(dis)
+                responses.append(result.copy())
+
 
 
             security.isValidToken(token)
 
-            return "Hola para el post con el token: "+token
+            # return "Hola para el post con el token: "+token
+            return json.dic_to_json(responses)
+
         except Exception as err:
             return errors.handleError(err)
 

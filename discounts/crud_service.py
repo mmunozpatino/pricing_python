@@ -9,6 +9,9 @@ import discounts.discount_schema as schema
 import random
 import string
 
+from rabbit.rabbit_service import sendNewDiscount
+
+
 
 def getDiscount(discountCode):
     
@@ -142,5 +145,9 @@ def _addOrUpdateDiscount(params):
         discounts["_id"] = params["_id"]
     else:
         discounts["_id"] = db.discounts.insert_one(discounts).inserted_id
+        response = {}
+        response['article'] = discounts["article_id"]
+        response['discount_code'] = discounts['discount_code']
+        response['message'] = 'Descuento creado con éxito'
 
-    return discounts
+    return response
