@@ -15,10 +15,9 @@ def init(app):
     def addPrice():
         print("Petición para agregar precio")
         try:
+            security.validateAdminRole(flask.request.headers.get("Authorization"))
 
             token = flask.request.headers.get("Authorization")
-
-            security.isValidToken(token)
 
             params = json.body_to_dic(flask.request.data)
 
@@ -43,11 +42,11 @@ def init(app):
     @app.route('/v1/prices/<articleId>', methods=['POST'])
     def updatePrice(articleId):
         try:
+            security.validateAdminRole(flask.request.headers.get("Authorization"))
 
             print('entro')
             token = flask.request.headers.get("Authorization")
 
-            security.isValidToken(token)
 
             # print("now "+ datetime.datetime.utcnow())
 

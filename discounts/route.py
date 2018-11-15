@@ -14,6 +14,7 @@ def init(app):
     def addDiscount():
         print("Petición para agregar descuento")
         try:
+            security.validateAdminRole(flask.request.headers.get("Authorization"))
 
             token = flask.request.headers.get("Authorization")
 
@@ -28,9 +29,6 @@ def init(app):
                 responses.append(result.copy())
 
 
-
-            security.isValidToken(token)
-
             # return "Hola para el post con el token: "+token
             return json.dic_to_json(responses)
 
@@ -40,10 +38,10 @@ def init(app):
     @app.route('/v1/discounts/<discountCode>', methods=['POST'])
     def updateDiscount(discountCode):
         try:
+            security.validateAdminRole(flask.request.headers.get("Authorization"))
 
             token = flask.request.headers.get("Authorization")
 
-            security.isValidToken(token)
 
             # print("now "+ datetime.datetime.utcnow())
 

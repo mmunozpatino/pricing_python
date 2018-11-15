@@ -37,9 +37,14 @@ def getPrice(articleId):
         print("el precio mayor es: ", ultimoPrecioSuma)
         print("resulto mayor: ", ultimoPrecio)
 
+        resp = {}
+        resp['fechaDesde'] = ultimoPrecio['fechaDesde']
+        resp['price'] = ultimoPrecio['price']
+        resp['article_id'] = ultimoPrecio['article_id']
+
         if (not result):
             raise error.InvalidArgument("_id", "Document does not exists")
-        return ultimoPrecio
+        return resp
     except Exception:
         raise error.InvalidArgument("_id", "Invalid object id")
 
@@ -60,7 +65,12 @@ def getPriceByDate(articleId, priceDate):
                 resultPrice = price
                 # return price
         if(resultPrice):
-            return resultPrice
+                
+            resp = {}
+            resp['fechaDesde'] = resultPrice['fechaDesde']
+            resp['price'] = resultPrice['price']
+            resp['article_id'] = resultPrice['article_id']
+            return resp
         else:
             return {}
 
@@ -85,15 +95,18 @@ def updatePrice(articleId, params):
     # print('TCL: params["article_id"]', params["article_id"])
     isNew = False
     prices = getPrice(params["article_id"])
-    # print('TCL: prices', prices);
+    print('TCL: prices', prices);
 
     # Actualizamos los valores validos a actualizar
     prices.update(params)
+    print('TCL: prices', prices);
 
-    # print("params: ",params)
+	# print("​prices: ", prices)
+
+    print("params: ",params)
 
     prices["updated"] = datetime.utcnow()
-    params["_id"] = prices["_id"]
+    # params["_id"] = prices["_id"]
 
     schema.validateSchema(prices)
 
