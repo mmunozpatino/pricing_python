@@ -1,0 +1,397 @@
+{
+	"info": {
+		"_postman_id": "0d452c7b-ea07-4dec-9303-99262528529a",
+		"name": "pricing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "actualizar precio",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"name": "Content-Type",
+						"value": "application/json",
+						"disabled": false
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"article_id\": \"article1\",\r\n        \"price\": 10.0,\r\n        \"fechaDesde\": \"2018-11-02T13:29:24\"  \r\n    }"
+				},
+				"url": {
+					"raw": "localhost:3006/v1/prices/article1",
+					"host": [
+						"localhost"
+					],
+					"port": "3006",
+					"path": [
+						"v1",
+						"prices",
+						"article1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "crear precio",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"name": "Content-Type",
+						"value": "application/json",
+						"disabled": false
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n\t\"article_id\": \"article1\",\n\t\"price\": 2,\n\t\"fechaDesde\": \"2018-11-01T20:26:21\"\n},\n{\n\t\"article_id\": \"article2\",\n\t\"price\": 2,\n\t\"fechaDesde\": \"2018-10-01T20:26:21\"\n}]"
+				},
+				"url": {
+					"raw": "localhost:3006/v1/prices",
+					"host": [
+						"localhost"
+					],
+					"port": "3006",
+					"path": [
+						"v1",
+						"prices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "crear descuento",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"name": "Content-Type",
+						"value": "application/json",
+						"disabled": false
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "  [{\r\n    \"article_id\": \"article1\",\r\n    \"discount_percentage\": 0.1,\r\n    \"discount_amount\": 0.0,\r\n    \"fechaDesde\": \"2018-10-01T13:29:24\"\r\n  }]"
+				},
+				"url": {
+					"raw": "localhost:3006/v1/discount",
+					"host": [
+						"localhost"
+					],
+					"port": "3006",
+					"path": [
+						"v1",
+						"discount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actualizar descuento",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"name": "Content-Type",
+						"value": "application/json",
+						"disabled": false
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"article_id\": \"article1\",\r\n        \"discount_percentage\": 0.1,\r\n        \"discount_amount\": 0,\r\n        \"fechaDesde\": \"2018-11-02T13:29:24\"  \r\n    }"
+				},
+				"url": {
+					"raw": "localhost:3006/v1/discounts/MWAEV2",
+					"host": [
+						"localhost"
+					],
+					"port": "3006",
+					"path": [
+						"v1",
+						"discounts",
+						"MWAEV2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "buscar descuento por código",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"name": "Content-Type",
+						"value": "application/json",
+						"disabled": false
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3006/v1/discounts/UJ9IVK",
+					"host": [
+						"localhost"
+					],
+					"port": "3006",
+					"path": [
+						"v1",
+						"discounts",
+						"UJ9IVK"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "buscar descuento por articulo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"name": "Content-Type",
+						"value": "application/json",
+						"disabled": false
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3006/v1/discounts/article=article1",
+					"host": [
+						"localhost"
+					],
+					"port": "3006",
+					"path": [
+						"v1",
+						"discounts",
+						"article=article1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "buscar precio por articulo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"name": "Content-Type",
+						"value": "application/json",
+						"disabled": false
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3006/v1/prices/article1",
+					"host": [
+						"localhost"
+					],
+					"port": "3006",
+					"path": [
+						"v1",
+						"prices",
+						"article1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "buscar precio por artículo y fecha",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"name": "Content-Type",
+						"value": "application/json",
+						"disabled": false
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3006/v1/price/article1?fecha=02/11/18",
+					"host": [
+						"localhost"
+					],
+					"port": "3006",
+					"path": [
+						"v1",
+						"price",
+						"article1"
+					],
+					"query": [
+						{
+							"key": "fecha",
+							"value": "02/11/18"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "buscar descuento por articulo y por fecha",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"name": "Content-Type",
+						"value": "application/json",
+						"disabled": false
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3006/v1/discount/article1?fecha=02/11/18",
+					"host": [
+						"localhost"
+					],
+					"port": "3006",
+					"path": [
+						"v1",
+						"discount",
+						"article1"
+					],
+					"query": [
+						{
+							"key": "fecha",
+							"value": "02/11/18"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

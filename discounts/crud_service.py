@@ -16,9 +16,9 @@ from rabbit.rabbit_service import sendNewDiscount
 def getDiscount(discountCode):
     
     try:
-        # print("va a buscar")
+        print("va a buscar", discountCode)
         result = db.discounts.find_one({"discount_code": discountCode})
-        # print("result", result)
+        print("result", result)
 
         if (not result):
             raise error.InvalidArgument("_id", "Document does not exists")
