@@ -31,7 +31,11 @@ def init(app):
                 pri = restValidator.validateAddPriceParams(price)
                 # print("pri",pri)
                 result = crud.addPrice(pri)
-                responses.append(result.copy())
+                resp = {}
+                resp['fechaDesde'] = result['fechaDesde']
+                resp['price'] = result['price']
+                resp['article_id'] = result['article_id']
+                responses.append(resp.copy())
             
             print(responses)
             # return json.dic_to_json(result)

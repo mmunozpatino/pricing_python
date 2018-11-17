@@ -61,7 +61,7 @@ Este microservicio tiene como objetivo permitir la administación de los precios
     Ruta que permite crear uno y varios precios nuevos. Nota: se pueden crear varios precios en una misma llamada
 
 **URL:**  
-    /v1/price
+    /v1/prices
 
 **Method:**  
     POST  
@@ -81,7 +81,7 @@ Este microservicio tiene como objetivo permitir la administación de los precios
 ```
     [{
         article_id: String,
-        message: "Registro creado con éxito"
+        message: "Precio creado con exito"
     }]
 ```
 
@@ -122,7 +122,7 @@ HTTP/1.1 500 Server Error
     Ruta que permite obtener un precio a partir del id del artículo deseado. Nota, se devuelve por defecto el precio vigente a la fecha. En caso de consultar un un código de descuento, se devolverá el precio con el descuento incluído.
 
 **URL:**  
- /v1/price/:article_id?discount=discount_code 
+ /v1/prices/:article_id
 
 **Method:**   
 GET  

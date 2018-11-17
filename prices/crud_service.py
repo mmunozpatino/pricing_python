@@ -37,14 +37,10 @@ def getPrice(articleId):
         print("el precio mayor es: ", ultimoPrecioSuma)
         print("resulto mayor: ", ultimoPrecio)
 
-        resp = {}
-        resp['fechaDesde'] = ultimoPrecio['fechaDesde']
-        resp['price'] = ultimoPrecio['price']
-        resp['article_id'] = ultimoPrecio['article_id']
 
         if (not result):
             raise error.InvalidArgument("_id", "Document does not exists")
-        return resp
+        return ultimoPrecio
     except Exception:
         raise error.InvalidArgument("_id", "Invalid object id")
 
@@ -107,9 +103,11 @@ def updatePrice(articleId, params):
 
     prices["updated"] = datetime.utcnow()
     # params["_id"] = prices["_id"]
+    print("prices Up: ",prices)
 
     schema.validateSchema(prices)
 
+    params["_id"] = prices["_id"]
     del prices["_id"]
     r = db.prices.replace_one(
         {"_id": bson.ObjectId(params["_id"])}, prices)
